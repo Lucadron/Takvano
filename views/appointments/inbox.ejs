@@ -1,0 +1,45 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">📥 Gelen Randevu Talepleri</h2>
+</div>
+
+<div class="card card-soft shadow" style="max-width: 1000px; margin: auto;">
+  <% if (talepler.length === 0) { %>
+    <p class="text-muted text-center">Henüz hiçbir randevu talebi yok.</p>
+  <% } else { %>
+    <table class="table table-bordered text-center align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Ziyaretçi</th>
+          <th>Tarih</th>
+          <th>Açıklama</th>
+          <th>Durum</th>
+          <th>İşlem</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% talepler.forEach(r => { %>
+          <tr class="<%= r.durum === 'Kabul Edildi' ? 'table-success' : r.durum === 'Reddedildi' ? 'table-danger' : 'table-warning' %>">
+            <td><%= r.ziyaretci.ad %> <%= r.ziyaretci.soyad %></td>
+            <td><%= new Date(r.tarih).toLocaleString("tr-TR") %></td>
+            <td><%= r.aciklama %></td>
+            <td><strong><%= r.durum %></strong></td>
+            <td>
+              <% if (r.durum === "Bekliyor") { %>
+                <form action="/randevu-guncelle/<%= r._id %>" method="POST" class="d-inline">
+                  <input type="hidden" name="durum" value="Kabul Edildi">
+                  <button type="submit" class="btn btn-success btn-sm">Kabul Et</button>
+                </form>
+                <form action="/randevu-guncelle/<%= r._id %>" method="POST" class="d-inline">
+                  <input type="hidden" name="durum" value="Reddedildi">
+                  <button type="submit" class="btn btn-danger btn-sm">Reddet</button>
+                </form>
+              <% } else { %>
+                <span class="text-muted">İşlem Tamam</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>

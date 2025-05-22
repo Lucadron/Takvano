@@ -1,0 +1,78 @@
+:root {
+  --primary-blue: #1B4F72;
+  --light-blue: #2874A6;
+  --soft-blue: #D6EAF8;
+  --white: #ffffff;
+  --gray-bg: #f8f9fa;
+  --danger-red: #dc3545;
+  --success-green: #198754;
+}
+
+/* Arka planlar */
+.bg-primary-blue {
+  background-color: var(--primary-blue) !important;
+}
+
+.bg-light-blue {
+  background-color: var(--light-blue) !important;
+}
+
+/* Yazı renkleri */
+.text-primary-blue {
+  color: var(--primary-blue) !important;
+}
+
+.text-light-blue {
+  color: var(--light-blue) !important;
+}
+
+/* Butonlar */
+.btn-takvano {
+  background-color: var(--primary-blue);
+  color: var(--white);
+}
+
+.btn-takvano:hover {
+  background-color: var(--light-blue);
+  color: var(--white);
+}
+
+/* Profil resmi yuvarlak ve sabit boyut */
+.rounded-profile {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Başlıkları hizalamak için */
+.section-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* İçerik kartları */
+.card-soft {
+  background-color: var(--gray-bg);
+  border: none;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+/* Liste öğeleri boş görünmesin */
+.list-group-item-action:hover {
+  background-color: var(--soft-blue);
+}
+
+/* Navbar fit */
+.navbar img.rounded-circle {
+  object-fit: cover;
+}
+
+/* çember profile */
+.rounded-profile {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}

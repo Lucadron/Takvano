@@ -1,0 +1,80 @@
+<div class="text-center mb-4">
+  <h1 class="text-primary-blue">👋 Takvano'ya Hoş Geldiniz</h1>
+  <p class="lead">Kişisel ve profesyonel randevularınızı kolayca yönetin.</p>
+</div>
+
+<% if (!user) { %>
+  <div class="text-center mb-5">
+    <a href="/kayit" class="btn btn-takvano me-2">📝 Kayıt Ol</a>
+    <a href="/giris" class="btn btn-outline-primary">🔐 Giriş Yap</a>
+  </div>
+
+<% } else if (user.rol === "Ziyaretci") { %>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card card-soft shadow text-center">
+        <h4 class="text-primary-blue mb-3">👤 Hoş geldin <%= user.ad %>!</h4>
+        <p>Favori organizatörlerine ulaş, randevu al ve geçmişini takip et.</p>
+        <a href="/organizatorler" class="btn btn-takvano w-100 mb-2">📋 Tüm Organizatörler</a>
+        <a href="/favorilerim" class="btn btn-outline-warning w-100 mb-2">⭐ Favorilerim</a>
+        <a href="/randevularim" class="btn btn-outline-info w-100">📅 Randevularım</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔍 Organizator Arama -->
+  <div class="text-center mt-5">
+    <h5 class="text-primary-blue">🔎 Organizator Ara</h5>
+    <input type="text" id="ara" class="form-control w-50 mx-auto mb-2" placeholder="İsim girin...">
+    <ul id="sonuclar" class="list-group w-50 mx-auto"></ul>
+  </div>
+
+  <script>
+    const input = document.getElementById("ara");
+    const liste = document.getElementById("sonuclar");
+
+    input.addEventListener("input", async () => {
+      const query = input.value.trim();
+      liste.innerHTML = "";
+      if (!query) return;
+
+      const res = await fetch(`/api/organizator-ara?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+
+      data.forEach(kisi => {
+        const li = document.createElement("li");
+        li.className = "list-group-item list-group-item-action";
+        li.textContent = kisi.ad + " " + kisi.soyad;
+        li.onclick = () => {
+          window.location.href = `/organizator/${kisi._id}`;
+        };
+        liste.appendChild(li);
+      });
+    });
+  </script>
+
+<% } else if (user.rol === "Organizator") { %>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card card-soft shadow text-center">
+        <h4 class="text-primary-blue mb-3">📣 Merhaba <%= user.ad %>!</h4>
+        <p>Profilini düzenle, gelen talepleri yönet ve takvimini kontrol et.</p>
+        <a href="/dashboard" class="btn btn-takvano w-100 mb-2">🏠 Dashboard</a>
+        <a href="/profil" class="btn btn-outline-primary w-100 mb-2">👤 Profilim</a>
+        <a href="/randevular" class="btn btn-outline-dark w-100">📥 Randevu Taleplerim</a>
+      </div>
+    </div>
+  </div>
+
+<% } else if (user.rol === "Admin") { %>
+  <div class="text-center">
+    <p class="text-muted">Sistem kontrolü için:</p>
+    <a href="/admin" class="btn btn-danger">🛠 Admin Paneline Git</a>
+  </div>
+<% } %>
+
+<hr class="my-5">
+
+<div class="text-center text-muted small">
+  © 2025 Takvano • Akıllı Randevu Yönetimi
+</div>

@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary-blue shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="/">
+      <img src="/img/takvano-logo.png" alt="Takvano" width="40" height="40" class="me-2 rounded-circle border border-white">
+      <span class="fw-bold">Takvano</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav ms-auto align-items-center">
+
+        <% if (user) { %>
+
+          <% if (user.rol === "Ziyaretci") { %>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">🏠 Panel</a></li>
+            <li class="nav-item"><a class="nav-link" href="/profilim">👤 Profilim</a></li>
+            <li class="nav-item"><a class="nav-link" href="/favorilerim">⭐ Favoriler</a></li>
+            <li class="nav-item"><a class="nav-link" href="/randevularim">📅 Randevular</a></li>
+
+          <% } else if (user.rol === "Organizator") { %>
+            <li class="nav-item"><a class="nav-link" href="/dashboard">🏠 Panel</a></li>
+            <li class="nav-item"><a class="nav-link" href="/profil">👤 Profilim</a></li>
+            <li class="nav-item"><a class="nav-link" href="/randevular">📥 Talepler</a></li>
+            <li class="nav-item"><a class="nav-link" href="/takvim/<%= user.id %>">📆 Takvim</a></li>
+
+          <% } else if (user.rol === "Admin") { %>
+            <li class="nav-item"><a class="nav-link" href="/admin">🛠 Admin Paneli</a></li>
+          <% } %>
+
+          <li class="nav-item">
+            <a class="nav-link text-warning" href="/cikis">🚪 Çıkış Yap</a>
+          </li>
+
+        <% } else { %>
+          <li class="nav-item"><a class="nav-link" href="/giris">🔐 Giriş</a></li>
+          <li class="nav-item"><a class="nav-link" href="/kayit">📝 Kayıt</a></li>
+        <% } %>
+
+      </ul>
+    </div>
+  </div>
+</nav>

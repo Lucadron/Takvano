@@ -1,0 +1,41 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">📆 <%= organizator.ad %> <%= organizator.soyad %> – Takvimi</h2>
+  <p class="lead">Uygun saatleri gör, dolu olanları kaçırma.</p>
+</div>
+
+<div class="text-center mb-3">
+  <a href="/randevu-talep/<%= organizator._id %>" class="btn btn-takvano">📩 Randevu Talep Et</a>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered text-center align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Saat</th>
+        <% for (let i = 0; i < 5; i++) {
+          const date = new Date();
+          date.setDate(date.getDate() + i);
+        %>
+          <th><%= date.toLocaleDateString("tr-TR", { weekday: "short", day: "numeric", month: "short" }) %></th>
+        <% } %>
+      </tr>
+    </thead>
+    <tbody>
+      <% slotList.forEach(slot => { %>
+        <tr>
+          <td><%= slot %></td>
+          <% for (let i = 0; i < 5; i++) {
+            const date = new Date();
+            date.setDate(date.getDate() + i);
+            const key = date.toLocaleDateString("tr-TR");
+            const isDolu = slotMap[key] && slotMap[key][slot];
+          %>
+            <td class="<%= isDolu ? 'table-danger' : 'table-success' %>">
+              <%= isDolu ? 'DOLU ❌' : 'BOŞ ✅' %>
+            </td>
+          <% } %>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

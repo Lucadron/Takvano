@@ -1,0 +1,29 @@
+<div class="text-center mb-4">
+  <h2 class="text-warning">⭐ Favori Organizatörlerim</h2>
+</div>
+
+<% if (favoriler.length === 0) { %>
+  <p class="text-center text-muted">Henüz favoriye eklediğiniz organizatör yok.</p>
+<% } else { %>
+  <div class="row">
+    <% favoriler.forEach(o => { %>
+      <div class="col-md-4 mb-4">
+        <div class="card card-soft shadow h-100">
+          <div class="d-flex align-items-center">
+            <img src="<%= o.profilFoto %>" class="rounded-circle me-3" width="60" height="60" alt="Profil">
+            <div>
+              <h5 class="mb-0"><%= o.ad %> <%= o.soyad %></h5>
+              <small class="text-muted"><%= o.motto || "Motto yok" %></small>
+            </div>
+          </div>
+          <div class="mt-3 d-flex justify-content-between">
+            <a href="/organizator/<%= o._id %>" class="btn btn-outline-primary btn-sm">👁 Profili Gör</a>
+            <form action="/favori/<%= o._id %>" method="POST">
+              <button class="btn btn-outline-danger btn-sm">❌ Kaldır</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+<% } %>

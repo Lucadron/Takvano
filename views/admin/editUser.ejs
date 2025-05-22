@@ -1,0 +1,35 @@
+<div class="text-center mb-4">
+    <h2 class="text-info">🛠 Kullanıcıyı Düzenle</h2>
+    <p class="lead">Kullanıcının bilgilerini aşağıdan değiştirebilirsin.</p>
+  </div>
+  
+  <div class="card p-4 shadow" style="max-width: 600px; margin: auto;">
+    <form action="/admin/kullanici-duzenle/<%= user._id %>" method="POST">
+      <div class="mb-2">
+        <label>Ad</label>
+        <input type="text" name="ad" value="<%= user.ad %>" class="form-control" required>
+      </div>
+      <div class="mb-2">
+        <label>Soyad</label>
+        <input type="text" name="soyad" value="<%= user.soyad %>" class="form-control" required>
+      </div>
+      <div class="mb-2">
+        <label>E-posta</label>
+        <input type="email" name="email" value="<%= user.email %>" class="form-control" required>
+      </div>
+      <div class="mb-2">
+        <label>Rol</label>
+        <select name="rol" class="form-select" required>
+          <option value="Ziyaretci" <%= user.rol === "Ziyaretci" ? "selected" : "" %>>Ziyaretçi</option>
+          <option value="Organizator" <%= user.rol === "Organizator" ? "selected" : "" %>>Organizatör</option>
+          <option value="Admin" <%= user.rol === "Admin" ? "selected" : "" %>>Admin</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label>Motto</label>
+        <input type="text" name="motto" value="<%= user.motto %>" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary w-100">💾 Güncelle</button>
+    </form>
+  </div>
+  

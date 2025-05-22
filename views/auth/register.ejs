@@ -1,0 +1,36 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">📝 Kayıt Ol</h2>
+</div>
+
+<div class="card card-soft shadow" style="max-width: 500px; margin: auto;">
+  <% if (hata) { %>
+    <div class="alert alert-danger text-center"><%= hata %></div>
+  <% } %>
+
+  <form action="/kayit" method="POST">
+    <div class="mb-3">
+      <label class="form-label">Ad</label>
+      <input name="ad" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Soyad</label>
+      <input name="soyad" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">E-posta</label>
+      <input type="email" name="email" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Şifre</label>
+      <input type="password" name="sifre" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Rol</label>
+      <select name="rol" class="form-select" required>
+        <option value="Ziyaretci">Ziyaretçi</option>
+        <option value="Organizator">Organizatör</option>
+      </select>
+    </div>
+    <button class="btn btn-takvano w-100">Kayıt Ol</button>
+  </form>
+</div>

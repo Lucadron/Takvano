@@ -26,7 +26,7 @@ npm install
 ```
 ---
 
-##📁 Ortam Değişkeni Tanımı
+## 📁 Ortam Değişkeni Tanımı
 .env.example dosyasına göre .env dosyanı kendin oluşturmalısın:
 PORT=8002
 MONGO_URI=mongodb://localhost/takvano
@@ -36,14 +36,14 @@ EMAIL_PASS=uygulama_sifren
 
 --- 
 
-##▶️ Çalıştırma (http://localhost:8002)
+## ▶️ Çalıştırma (http://localhost:8002)
 ```
 npm start
 ```
 
 ---
 
-##👤 Roller ve Yetkiler
+## 👤 Roller ve Yetkiler
 | Rol         | Yetkiler                                                |
 | ----------- | ------------------------------------------------------- |
 | Admin       | Tüm kullanıcıları/randevuları görüntüleme ve silme      |
@@ -52,6 +52,6 @@ npm start
 
 ---
 
-##📫 İletişim
+## 📫 İletişim
 Email: emregulsentr0@gmail.com
 LinkedIn: https://www.linkedin.com/in/emregulsen/

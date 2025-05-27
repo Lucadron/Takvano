@@ -1,0 +1,67 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">📩 Randevu Talep Et – <%= organizator.ad %> <%= organizator.soyad %></h2>
+  <p class="lead">Uygun tarih ve saat seçerek randevu isteği oluştur.</p>
+
+  <% if (mesaj) { %>
+    <div class="alert alert-warning text-center mt-3"><%= mesaj %></div>
+  <% } %>
+</div>
+
+<div class="card card-soft shadow" style="max-width: 700px; margin: auto;">
+  <form action="/randevu-talep/<%= organizator._id %>" method="POST">
+    <!-- Tarih Seç -->
+    <div class="mb-3">
+      <label for="tarih" class="form-label">📆 Tarih Seç</label>
+      <input type="date" id="tarih" name="tarihSecimi" class="form-control" required min="">
+    </div>
+
+    <!-- Saat Seç -->
+    <div class="mb-3">
+      <label for="saat" class="form-label">🕘 Saat Seç</label>
+      <select id="saat" name="saat" class="form-select" required>
+        <option value="">Lütfen önce tarih seçin</option>
+      </select>
+    </div>
+
+    <!-- Açıklama -->
+    <div class="mb-3">
+      <label for="aciklama" class="form-label">📝 Açıklama</label>
+      <textarea name="aciklama" id="aciklama" class="form-control" rows="4" placeholder="Görüşme nedeni..." required></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-takvano w-100">📤 Randevu Talebini Gönder</button>
+  </form>
+</div>
+
+<script>
+  const tarihInput = document.getElementById("tarih");
+  const today = new Date().toISOString().split("T")[0];
+  tarihInput.setAttribute("min", today);
+
+  const slotMap = <%- slotMap %>;
+  const slotList = <%- JSON.stringify(slotList) %>;
+
+  tarihInput.addEventListener("change", function () {
+    const selectedDate = this.value;
+    const saatSelect = document.getElementById("saat");
+    saatSelect.innerHTML = "";
+
+    const now = new Date();
+    const nowHour = now.getHours();
+    const nowMinute = now.getMinutes();
+
+    slotList.forEach((slot) => {
+      const [slotHour, slotMin] = slot.split(":").map(Number);
+      const isSameDay = selectedDate === today;
+      const isPastTime = isSameDay && (slotHour < nowHour || (slotHour === nowHour && slotMin <= nowMinute));
+
+      const doluMu = slotMap[selectedDate] && slotMap[selectedDate][slot];
+
+      const option = document.createElement("option");
+      option.value = slot;
+      option.textContent = `${slot} ${doluMu ? "(DOLU ❌)" : isPastTime ? "(GEÇMİŞ ❌)" : "(BOŞ ✅)"}`;
+      option.disabled = doluMu || isPastTime;
+      saatSelect.appendChild(option);
+    });
+  });
+</script>

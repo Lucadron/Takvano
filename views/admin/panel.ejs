@@ -1,0 +1,71 @@
+<div class="text-center mb-4">
+  <h2 class="text-danger">🛠 Admin Paneli</h2>
+  <p class="lead">Sistem genelini denetleyebilir, kullanıcı ve randevu işlemlerini yönetebilirsin.</p>
+</div>
+
+<!-- 👥 Kullanıcılar -->
+<h4 class="text-primary-blue">👤 Kullanıcılar</h4>
+<div class="table-responsive mb-5">
+  <table class="table table-bordered text-center align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Ad</th>
+        <th>Soyad</th>
+        <th>E-posta</th>
+        <th>Rol</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(u => { %>
+        <tr>
+          <td><%= u.ad %></td>
+          <td><%= u.soyad %></td>
+          <td><%= u.email %></td>
+          <td><%= u.rol %></td>
+          <td class="d-flex justify-content-center gap-2">
+            <% if (u.rol !== "Admin") { %>
+              <a href="/admin/kullanici-duzenle/<%= u._id %>" class="btn btn-sm btn-outline-secondary">Düzenle</a>
+              <form action="/admin/kullanici-sil/<%= u._id %>" method="POST">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Silinsin mi?')">Sil</button>
+              </form>
+            <% } else { %>
+              <span class="text-muted">Admin</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<!-- 📅 Randevular -->
+<h4 class="text-primary-blue">📅 Tüm Randevular</h4>
+<div class="table-responsive">
+  <table class="table table-bordered text-center align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Ziyaretçi</th>
+        <th>Organizatör</th>
+        <th>Tarih</th>
+        <th>Durum</th>
+        <th>İşlem</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% randevular.forEach(r => { %>
+        <tr class="<%= r.durum === 'Kabul Edildi' ? 'table-success' : r.durum === 'Reddedildi' ? 'table-danger' : 'table-warning' %>">
+          <td><%= r.ziyaretci.ad %> <%= r.ziyaretci.soyad %></td>
+          <td><%= r.organizator.ad %> <%= r.organizator.soyad %></td>
+          <td><%= new Date(r.tarih).toLocaleString("tr-TR") %></td>
+          <td><%= r.durum %></td>
+          <td>
+            <form action="/admin/randevu-sil/<%= r._id %>" method="POST">
+              <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Randevu silinsin mi?')">Sil</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,65 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">🔔 Bildirimler</h2>
+</div>
+
+<% if (bildirimler.length===0) { %>
+  <p class="text-muted text-center">Henüz bildiriminiz yok.</p>
+  <% } else { %>
+    <form action="/bildirimler/tumunu-sil" method="POST"
+      onsubmit="return confirm('Tüm bildirimleri silmek istediğinizden emin misiniz?')" class="text-end mb-3">
+      <button class="btn btn-outline-danger btn-sm" title="Tüm bildirimleri sil">🧹 Tümünü Sil</button>
+    </form>
+
+    <ul class="list-group">
+      <% bildirimler.forEach(b=> { %>
+        <li class="list-group-item d-flex justify-content-between align-items-center <%= b.okundu ? '' : 'bg-light' %>">
+          <div>
+            <strong>
+              <% if (b.sender) { %>
+                <% if (b.sender.rol==="Organizator" ) { %>
+                  <a href="/organizator/<%= b.sender._id %>" class="text-decoration-none fw-bold text-dark">
+                    <%= b.sender.ad %>
+                      <%= b.sender.soyad %> (Organizatör)
+                  </a>
+                  <% } else if (b.sender.rol==="Ziyaretci" ) { %>
+                    <a href="/ziyaretci/<%= b.sender._id %>" class="text-decoration-none fw-bold text-dark">
+                      <%= b.sender.ad %>
+                        <%= b.sender.soyad %> (Ziyaretçi)
+                    </a>
+                    <% } else { %>
+                      <%= b.sender.ad %>
+                        <%= b.sender.soyad %>
+                          <% } %>
+                            <% } else { %>
+                              <span class="text-muted">Sistem</span>
+                              <% } %>
+            </strong>
+            <%= b.mesaj %>
+              <% if (!b.okundu) { %> <span class="badge bg-danger ms-2">🆕</span>
+                <% } %>
+                  <br>
+                  <small class="text-muted">
+                    <%= new Date(b.tarih).toLocaleString("tr-TR") %>
+                  </small>
+
+          </div>
+
+          <div class="d-flex gap-2">
+            <form action="/bildirimler/toggle/<%= b._id %>" method="POST">
+              <button class="btn btn-sm <%= b.okundu ? 'btn-outline-secondary' : 'btn-outline-success' %>"
+                title="<%= b.okundu ? 'Yeniden okunmadı olarak işaretle' : 'Okundu olarak işaretle' %>">
+                <%= b.okundu ? '👁' : '👁‍🗨' %>
+              </button>
+            </form>
+
+            <form action="/bildirimler/sil/<%= b._id %>" method="POST"
+              onsubmit="return confirm('Bu bildirimi silmek istediğinizden emin misiniz?')">
+              <button class="btn btn-sm btn-outline-danger" title="Sil">🗑</button>
+            </form>
+            <a href="/<%= user.rol === 'Ziyaretci' ? 'randevularim' : 'randevular' %>" class="btn btn-sm btn-outline-primary" title="Randevulara Git">📅</a>
+
+          </div>
+        </li>
+        <% }) %>
+    </ul>
+    <% } %>

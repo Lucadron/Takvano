@@ -1,0 +1,25 @@
+<table class="table table-bordered text-center align-middle mt-3">
+  <thead class="table-light">
+    <tr>
+      <th>Organizatör</th>
+      <th>Tarih</th>
+      <th>Açıklama</th>
+      <th>Durum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% randevular.forEach(r => { %>
+<tr class="<%= 
+  r.durum === 'Kabul Edildi' ? 'table-success' :
+  r.durum === 'Reddedildi' ? 'table-danger' :
+  r.durum === 'Zaman Aşımı' ? 'table-secondary' :
+  'table-warning' 
+%>">
+        <td><%= r.organizator.ad %> <%= r.organizator.soyad %></td>
+        <td><%= new Date(r.tarih).toLocaleString("tr-TR") %></td>
+        <td><%= r.aciklama %></td>
+        <td><strong><%= r.durum %></strong></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

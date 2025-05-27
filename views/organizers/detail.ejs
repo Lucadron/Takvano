@@ -1,0 +1,31 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">👤 Organizator Profili</h2>
+</div>
+
+<div class="card card-soft shadow" style="max-width: 700px; margin: auto;">
+  <div class="text-center mb-3">
+    <img src="<%= organizator.profilFoto %>" alt="Profil" class="rounded-profile img-thumbnail">
+  </div>
+
+  <h4 class="text-center mb-2"><%= organizator.ad %> <%= organizator.soyad %></h4>
+  <p class="text-center text-muted"><strong>Motto:</strong> <%= organizator.motto || "Belirtilmemiş" %></p>
+  <p class="text-center"><strong>E-posta:</strong> <%= organizator.email %></p>
+
+  <% if (favorideMi) { %>
+    <p class="text-center"><span class="badge bg-success">⭐ Favoride</span></p>
+  <% } else { %>
+    <p class="text-center"><span class="badge bg-secondary">⭐ Favoride Değil</span></p>
+  <% } %>
+
+  <% if (mesaj) { %>
+    <div class="alert alert-info text-center"><%= mesaj %></div>
+  <% } %>
+
+  <div class="d-flex justify-content-between mt-3">
+    <form action="/favori/<%= organizator._id %>" method="POST">
+      <button class="btn btn-outline-warning">⭐ Favorilere Ekle / Kaldır</button>
+    </form>
+    <a href="/takvim/<%= organizator._id %>" class="btn btn-outline-primary">📆 Takvimi Gör</a>
+    <a href="/randevu-talep/<%= organizator._id %>" class="btn btn-takvano">📩 Randevu Talep Et</a>
+  </div>
+</div>

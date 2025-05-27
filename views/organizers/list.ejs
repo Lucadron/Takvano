@@ -1,0 +1,23 @@
+<div class="text-center mb-4">
+  <h2 class="text-success">👥 Organizatörler</h2>
+  <p class="lead">Randevu almak istediğin kişiyi seçmek için aşağıdan profillere göz atabilirsin.</p>
+</div>
+
+<div class="row">
+  <% organizators.forEach(o => { %>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow p-3 h-100">
+        <div class="d-flex align-items-center">
+          <img src="<%= o.profilFoto %>" class="rounded-circle me-3" width="60" height="60" alt="Profil Foto">
+          <div>
+            <h5 class="mb-0"><%= o.ad %> <%= o.soyad %></h5>
+            <small class="text-muted"><%= o.motto || "Motto belirtilmemiş" %></small>
+          </div>
+        </div>
+        <div class="mt-3 text-end">
+          <a href="/organizator/<%= o._id %>" class="btn btn-outline-primary btn-sm">👁 Profili Gör</a>
+        </div>
+      </div>
+    </div>
+  <% }) %>
+</div>

@@ -1,0 +1,61 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">✏️ Profil Düzenle</h2>
+  <p class="lead">Bilgilerini güncelle ve profil fotoğrafını değiştir.</p>
+
+  <% if (basari) { %>
+    <div class="alert alert-success">
+      <%= basari %>
+    </div>
+    <% } %>
+      <% if (hata) { %>
+        <div class="alert alert-danger">
+          <%= hata %>
+        </div>
+        <% } %>
+</div>
+
+<div class="card card-soft shadow" style="max-width: 800px; margin: auto;">
+  <form action="/profil-duzenle" method="POST" enctype="multipart/form-data" class="p-4">
+    <div class="row g-4 align-items-center">
+      <div class="col-md-4 text-center">
+        <img src="<%= user.profilFoto %>" class="img-thumbnail rounded-profile mb-2"
+          style="width: 140px; height: 140px;" alt="Profil">
+        <input type="file" name="profilFoto" id="profilFoto" class="form-control d-none">
+        <label for="profilFoto" class="btn btn-outline-primary mt-2">📤 Fotoğraf Yükle</label>
+        <div id="dosyaAdi" class="small text-muted mt-1">Seçilen dosya yok</div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="mb-2">
+          <label>Ad</label>
+          <input name="ad" value="<%= user.ad %>" class="form-control" required>
+        </div>
+        <div class="mb-2">
+          <label>Soyad</label>
+          <input name="soyad" value="<%= user.soyad %>" class="form-control" required>
+        </div>
+        <div class="mb-2">
+          <label>E-posta</label>
+          <input type="email" name="email" value="<%= user.email %>" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label>Motto</label>
+          <input name="motto" value="<%= user.motto %>" class="form-control" placeholder="Kendini kısaca tanıt...">
+        </div>
+        <button class="btn btn-takvano w-100">💾 Bilgileri Güncelle</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="text-end mt-3 mb-4 pe-3"> <!-- "text-end" ile sağa yasladık -->
+    <a href="/change-password" class="btn btn-warning">🔐 Şifre Değiştir</a>
+  </div>
+</div>
+
+<script>
+  // Seçilen dosya adını göstermek için:
+  document.getElementById("profilFoto").addEventListener("change", function () {
+    const fileName = this.files[0] ? this.files[0].name : "Seçilen dosya yok";
+    document.getElementById("dosyaAdi").textContent = fileName;
+  });
+</script>

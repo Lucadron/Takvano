@@ -1,0 +1,81 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">📋 Kontrol Paneli</h2>
+  <p class="lead">Hoş geldin <strong>
+      <%= user.ad %>
+    </strong>, tüm işlemlerini buradan yönetebilirsin.</p>
+  <% if (mesaj) { %>
+    <div class="alert alert-success text-center mt-3">
+      <%= mesaj %>
+    </div>
+    <% } %>
+
+</div>
+
+<!-- 📢 Bildirim Paneli -->
+<div class="card card-soft shadow mb-4" style="max-width: 700px; margin: auto;">
+  <div class="d-flex justify-content-between align-items-center mb-2 px-3 pt-3">
+    <h5 class="text-primary-blue mb-0">🔔 Bildirimler</h5>
+    <div class="d-flex gap-2">
+      <% if (user.rol==="Ziyaretci" ) { %>
+        <a href="/randevularim" class="btn btn-outline-info btn-sm">📅 Randevulara Git</a>
+        <% } else if (user.rol==="Organizator" ) { %>
+          <a href="/randevular" class="btn btn-outline-info btn-sm">📅 Randevulara Git</a>
+          <% } %>
+            <a href="/bildirimler" class="btn btn-outline-warning btn-sm">🔔 Bildirimlere Git</a>
+
+    </div>
+  </div>
+
+  <!-- Bildirim listesi buraya gelir -->
+
+
+  <% if (bildirimler.length===0) { %>
+    <p class="text-muted">Yeni bildiriminiz yok.</p>
+    <% } else { %>
+      <ul class="list-group">
+        <% bildirimler.forEach(b=> { %>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+              <span>
+                <%= b.mesaj %>
+                  <% if (!b.okundu) { %> <span class="badge bg-danger ms-2">🆕</span>
+                    <% } %>
+              </span>
+            </span>
+          </li>
+          <% }) %>
+      </ul>
+      <% } %>
+
+</div>
+
+<!-- Rol Bazlı Hızlı Erişim -->
+<% if (user.rol==="Ziyaretci" ) { %>
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+      <div class="card card-soft shadow text-center">
+        <h5 class="mb-3 text-primary-blue">⚡ Hızlı Erişim</h5>
+        <a href="/organizatorler" class="btn btn-takvano mb-2 w-100">📋 Organizatörler</a>
+        <a href="/favorilerim" class="btn btn-outline-warning mb-2 w-100">⭐ Favoriler</a>
+        <a href="/randevularim" class="btn btn-outline-info w-100">📅 Randevularım</a>
+      </div>
+    </div>
+  </div>
+
+  <% } else if (user.rol==="Organizator" ) { %>
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-6">
+        <div class="card card-soft shadow text-center">
+          <h5 class="mb-3 text-primary-blue">🧩 Organizator Paneli</h5>
+          <a href="/profil" class="btn btn-outline-primary mb-2 w-100">👤 Profilim</a>
+          <a href="/randevular" class="btn btn-outline-dark mb-2 w-100">📥 Randevu Taleplerim</a>
+          <a href="/takvim/<%= user.id %>" class="btn btn-outline-success w-100">📆 Takvimim</a>
+        </div>
+      </div>
+    </div>
+
+    <% } else if (user.rol==="Admin" ) { %>
+      <div class="text-center mt-4">
+        <a href="/admin" class="btn btn-danger">🛠 Admin Paneline Git</a>
+      </div>
+      <% } %>

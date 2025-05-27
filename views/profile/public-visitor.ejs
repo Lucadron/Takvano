@@ -1,0 +1,13 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">👤 Ziyaretçi Profili</h2>
+</div>
+
+<div class="card card-soft shadow" style="max-width: 700px; margin: auto;">
+  <div class="text-center mt-4">
+    <img src="<%= profil.profilFoto %>" class="img-thumbnail rounded-circle" width="120" height="120" alt="Profil">
+  </div>
+  <div class="card-body text-center">
+    <h4><%= profil.ad %> <%= profil.soyad %></h4>
+    <p class="text-muted"><strong>Motto:</strong> <%= profil.motto || "Belirtilmemiş" %></p>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<table class="table table-bordered text-center align-middle">
+  <thead class="table-light">
+    <tr>
+      <th>Ziyaretçi</th>
+      <th>Tarih</th>
+      <th>Açıklama</th>
+      <th>Durum</th>
+      <th>İşlem</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% talepler.forEach(r => { %>
+      <tr class="<%= r.durum === 'Kabul Edildi' ? 'table-success' : r.durum === 'Reddedildi' ? 'table-danger' : r.durum === 'Zaman Aşımı' ? 'table-secondary' : 'table-warning' %>">
+        <td class="d-flex align-items-center gap-2 justify-content-center">
+          <a href="/ziyaretci/<%= r.ziyaretci._id %>">
+            <img src="<%= r.ziyaretci.profilFoto %>" alt="Profil" class="rounded-circle" width="40" height="40">
+          </a>
+          <a href="/ziyaretci/<%= r.ziyaretci._id %>" class="text-decoration-none fw-bold">
+            <%= r.ziyaretci.ad %> <%= r.ziyaretci.soyad %>
+          </a>
+        </td>
+        <td><%= new Date(r.tarih).toLocaleString("tr-TR") %></td>
+        <td><%= r.aciklama %></td>
+        <td><strong><%= r.durum %></strong></td>
+        <td>
+          <% if (r.durum === "Bekliyor") { %>
+            <form action="/randevu-guncelle/<%= r._id %>" method="POST" class="d-inline">
+              <input type="hidden" name="durum" value="Kabul Edildi">
+              <button type="submit" class="btn btn-success btn-sm">Kabul Et</button>
+            </form>
+            <form action="/randevu-guncelle/<%= r._id %>" method="POST" class="d-inline">
+              <input type="hidden" name="durum" value="Reddedildi">
+              <button type="submit" class="btn btn-danger btn-sm">Reddet</button>
+            </form>
+          <% } else { %>
+            <span class="text-muted">İşlem Tamam</span>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

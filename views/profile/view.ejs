@@ -1,0 +1,41 @@
+<div class="text-center mb-4">
+    <h2 class="text-primary-blue">
+        <% let baslik="Profilim" ; %>
+            <% if (rol==="Organizator" ) { %>
+                <% baslik="Organizatör Profilim" ; %>
+                    <% } else if (rol==="Ziyaretci" ) { %>
+                        <% baslik="Ziyaretçi Profilim" ; %>
+                            <% } else if (rol==="Admin" ) { %>
+                                <% baslik="Yönetici Profilim" ; %>
+                                    <% } %>
+
+                                        <h2 class="text-primary-blue">👤 <%= baslik %>
+                                        </h2>
+    </h2>
+    <p class="lead">Bilgilerini görüntüleyebilir ve gerektiğinde düzenleyebilirsin.</p>
+</div>
+
+<div class="card card-soft shadow" style="max-width: 700px; margin: auto;">
+    <div class="text-center mt-4">
+        <img src="<%= user.profilFoto %>" alt="Profil Foto" class="rounded-profile img-thumbnail"
+            style="width: 140px; height: 140px;">
+    </div>
+
+    <div class="card-body">
+        <h4 class="text-center">
+            <%= user.ad %>
+                <%= user.soyad %>
+        </h4>
+        <p class="text-center text-muted"><strong>Motto:</strong>
+            <%= user.motto || "Belirtilmemiş" %>
+        </p>
+        <p class="text-center"><strong>E-posta:</strong>
+            <%= user.email %>
+        </p>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mb-4">
+        <a href="/profil-duzenle" class="btn btn-outline-primary">✏️ Profili Düzenle</a>
+        <a href="/change-password" class="btn btn-outline-warning">🔐 Şifre Değiştir</a>
+    </div>
+</div>

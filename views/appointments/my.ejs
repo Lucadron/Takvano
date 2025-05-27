@@ -1,0 +1,36 @@
+<div class="text-center mb-4">
+  <h2 class="text-info">📅 Randevularım</h2>
+</div>
+
+<% if (mesaj) { %>
+  <div class="alert alert-success text-center"><%= mesaj %></div>
+<% } %>
+
+<ul class="nav nav-tabs justify-content-center mb-3" id="randevuTabs" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="aktif-tab" data-bs-toggle="tab" href="#aktif" role="tab">🟢 Aktif Randevular</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="gecmis-tab" data-bs-toggle="tab" href="#gecmis" role="tab">🔙 Geçmiş Randevular</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="randevuTabsContent">
+  <!-- Aktif -->
+  <div class="tab-pane fade show active" id="aktif" role="tabpanel">
+    <% if (aktifRandevular.length === 0) { %>
+      <p class="text-center text-muted">Aktif randevunuz bulunmuyor.</p>
+    <% } else { %>
+      <%- include("./_table", { randevular: aktifRandevular }) %>
+    <% } %>
+  </div>
+
+  <!-- Geçmiş -->
+  <div class="tab-pane fade" id="gecmis" role="tabpanel">
+    <% if (gecmisRandevular.length === 0) { %>
+      <p class="text-center text-muted">Geçmiş randevunuz bulunmuyor.</p>
+    <% } else { %>
+      <%- include("./_table", { randevular: gecmisRandevular }) %>
+    <% } %>
+  </div>
+</div>

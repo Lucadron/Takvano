@@ -12,10 +12,9 @@ exports.newAppointmentForm = async (req, res) => {
     return res.redirect("/");
   }
 
-  const generateSlots = () => {
+  // 🔹 generateSlots fonksiyonunu dinamik hale getir
+  const generateSlots = (startHour, endHour) => {
     const slots = [];
-    const startHour = 8;
-    const endHour = 17;
     for (let hour = startHour; hour < endHour; hour++) {
       slots.push(`${hour.toString().padStart(2, "0")}:00`);
       slots.push(`${hour.toString().padStart(2, "0")}:30`);
@@ -23,25 +22,33 @@ exports.newAppointmentForm = async (req, res) => {
     return slots;
   };
 
+  // 🔹 Organizator saat aralığını al
+  const baslangicSaat = parseInt(organizator.calismaSaatleri.baslangic.split(":")[0]) || 8;
+  const bitisSaat = parseInt(organizator.calismaSaatleri.bitis.split(":")[0]) || 17;
+
+  // 🔹 Slot listesini üret
+  const slotList = generateSlots(baslangicSaat, bitisSaat);
+
   const randevular = await Appointment.find({
     organizator: organizatorId,
     durum: "Kabul Edildi"
   });
 
+  // 🔹 Mevcut kodun geri kalan kısmı
+  // SlotMap hazırla (senin kodunda varsa)
   const slotMap = {};
-  randevular.forEach((r) => {
-    const date = new Date(r.tarih);
-    const key = date.toISOString().split("T")[0]; // yyyy-mm-dd
-    const time = date.toTimeString().slice(0, 5); // HH:MM
-    if (!slotMap[key]) slotMap[key] = {};
-    slotMap[key][time] = true;
+  randevular.forEach(r => {
+    const tarih = r.tarih.toISOString().split("T")[0];
+    if (!slotMap[tarih]) slotMap[tarih] = [];
+    const saat = r.tarih.toISOString().split("T")[1].slice(0,5);
+    slotMap[tarih].push(saat);
   });
 
   res.render("appointments/new", {
     title: "Randevu Talep Et",
     organizator,
-    slotMap: JSON.stringify(slotMap), // client tarafında kullanacağız
-    slotList: generateSlots()
+    slotMap: JSON.stringify(slotMap),
+    slotList
   });
 };
 
@@ -80,10 +87,8 @@ exports.updateStatus = async (req, res) => {
 };
 
 //Organizatör takvim
-const generateSlots = () => {
+const generateSlots = (startHour, endHour) => {
   const slots = [];
-  const startHour = 8;
-  const endHour = 17;
   for (let hour = startHour; hour < endHour; hour++) {
     slots.push(`${hour.toString().padStart(2, "0")}:00`);
     slots.push(`${hour.toString().padStart(2, "0")}:30`);

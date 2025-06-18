@@ -37,11 +37,15 @@
 
               <% } else if (user.rol==="Admin" ) { %>
                 <li class="nav-item"><a class="nav-link" href="/admin">🛠 Admin Paneli</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/uploads">📂 Uploads</a></li>
                 <li class="nav-item"><a class="nav-link" href="/profil-goruntule">👤 Profilim</a></li>
                 <% } %>
 
                   <li class="nav-item">
-                    <a class="nav-link text-warning" href="/cikis">🚪 Çıkış Yap</a>
+                    <a href="/cikis" class="nav-link text-warning"
+                      data-confirm="Çıkış yapmak istediğinizden emin misiniz?">
+                      🚪 Çıkış Yap
+                    </a>
                   </li>
 
                   <% } else { %>

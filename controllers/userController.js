@@ -71,7 +71,7 @@ exports.getChangePassword = (req, res) => {
   });
 };
 
-//Şifre Değiştirme POST
+// Şifre Değiştirme POST
 exports.postChangePassword = async (req, res) => {
   const { oldPassword, newPassword, confirmPassword } = req.body;
 
@@ -86,10 +86,8 @@ exports.postChangePassword = async (req, res) => {
     return res.render("auth/changePassword", { title: "Şifre Değiştir", hata: "Yeni şifreler eşleşmiyor.", basari: null });
   }
 
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(newPassword, salt);
-  user.sifre = hash;
-  await user.save();
+  user.sifre = newPassword; // hashleme burada yok!
+  await user.save();        // hashleme pre("save") içinde yapılır
 
   res.render("auth/changePassword", { title: "Şifre Değiştir", hata: null, basari: "Şifreniz başarıyla güncellendi." });
 };

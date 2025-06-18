@@ -1,5 +1,8 @@
 const User = require("../models/User");
 const Appointment = require("../models/Appointment");
+const fs = require("fs");
+const path = require("path");
+
 
 exports.panel = async (req, res) => {
   const users = await User.find();
@@ -11,6 +14,7 @@ exports.panel = async (req, res) => {
   res.render("admin/panel", {
     title: "Admin Paneli",
     users,
+    user: req.user,
     randevular
   });
 };
@@ -25,21 +29,77 @@ exports.silRandevu = async (req, res) => {
   res.redirect("/admin");
 };
 
-
 exports.kullaniciGetir = async (req, res) => {
-  const user = await require("../models/User").findById(req.params.id);
+  const user = await User.findById(req.params.id);
   if (!user) return res.redirect("/admin");
-  res.render("admin/editUser", { title: "Kullanıcıyı Düzenle", user });
+  res.render("admin/editUser", {
+    title: "Kullanıcıyı Düzenle",
+    user,
+    hata: null,
+    basari: null
+  });
 };
 
 exports.kullaniciGuncelle = async (req, res) => {
-  const { ad, soyad, email, rol, motto } = req.body;
-  await require("../models/User").findByIdAndUpdate(req.params.id, {
-    ad,
-    soyad,
-    email,
-    rol,
-    motto
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.redirect("/admin");
+
+    const { ad, soyad, email, rol, motto } = req.body;
+
+    user.ad = ad;
+    user.soyad = soyad;
+    user.email = email;
+    user.rol = rol;
+    user.motto = motto;
+    user.calismaSaatleri = {
+      baslangic: req.body["calismaSaatleri.baslangic"] || "08:00",
+      bitis: req.body["calismaSaatleri.bitis"] || "17:00"
+    };
+
+    if (req.file && req.file.filename) {
+      // Eski fotoğrafı sil (ppbos.jpg değilse)
+      if (user.profilFoto && user.profilFoto !== "/uploads/ppbos.jpg") {
+        const eskiDosyaYolu = path.join(__dirname, "..", "public", user.profilFoto);
+        fs.unlink(eskiDosyaYolu, (err) => {
+          if (err) {
+            console.warn("⚠️ Eski foto silinemedi:", err.message);
+          } else {
+            console.log("✅ Eski foto silindi:", eskiDosyaYolu);
+          }
+        });
+      }
+
+      // Yeni foto yolu ata
+      user.profilFoto = "/uploads/" + req.file.filename;
+    }
+
+    await user.save();
+
+    res.render("admin/editUser", {
+      title: "Kullanıcıyı Düzenle",
+      user,
+      hata: null,
+      basari: "✅ Kullanıcı başarıyla güncellendi."
+    });
+  } catch (err) {
+    console.error("Admin kullanıcı güncelleme hatası:", err);
+    const fallbackUser = await User.findById(req.params.id);
+    res.render("admin/editUser", {
+      title: "Kullanıcıyı Düzenle",
+      user: fallbackUser,
+      hata: "❌ Bir hata oluştu.",
+      basari: null
+    });
+  }
+};
+
+exports.renderError = async (req, res, userId, hataMesaji) => {
+  const user = await User.findById(userId);
+  res.render("admin/editUser", {
+    title: "Kullanıcıyı Düzenle",
+    user,
+    hata: hataMesaji,
+    basari: null
   });
-  res.redirect("/admin");
 };

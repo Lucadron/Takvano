@@ -1,0 +1,39 @@
+<div class="text-center mb-4">
+  <h2 class="text-primary-blue">📂 Uploads Klasörü</h2>
+  <% if (hata) { %>
+    <div class="alert alert-danger"><%= hata %></div>
+  <% } %>
+  <% if (basari) { %>
+    <div class="alert alert-success"><%= basari %></div>
+  <% } %>
+</div>
+
+<div class="text-end mb-2">
+  <form action="/admin/uploads/tumunu-sil" method="POST" data-confirm="Tüm dosyaları silmek istediğinizden emin misiniz?">
+    <button class="btn btn-outline-danger btn-sm">🧹 Tümünü Sil</button>
+  </form>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Dosya Adı</th>
+      <th>Boyut (KB)</th>
+      <th>İşlem</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% files.forEach(file => { %>
+      <tr>
+        <td><%= file.name %></td>
+        <td><%= file.sizeKB %></td>
+        <td>
+          <a href="/uploads/<%= file.name %>" target="_blank" class="btn btn-sm btn-outline-primary">Görüntüle</a>
+          <form action="/admin/uploads/sil/<%= file.name %>" method="POST" style="display:inline;" data-confirm="Bu dosyayı silmek istediğinizden emin misiniz?">
+            <button class="btn btn-sm btn-outline-danger">🗑 Sil</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

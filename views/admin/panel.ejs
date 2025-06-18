@@ -1,6 +1,6 @@
 <div class="text-center mb-4">
   <h2 class="text-danger">🛠 Admin Paneli</h2>
-  <p class="lead">Sistem genelini denetleyebilir, kullanıcı ve randevu işlemlerini yönetebilirsin.</p>
+  <p class="lead">Sistemdeki kullanıcı ve randevu işlemlerini yönetebilirsin.</p>
 </div>
 
 <!-- 👥 Kullanıcılar -->
@@ -25,9 +25,9 @@
           <td><%= u.rol %></td>
           <td class="d-flex justify-content-center gap-2">
             <% if (u.rol !== "Admin") { %>
-              <a href="/admin/kullanici-duzenle/<%= u._id %>" class="btn btn-sm btn-outline-secondary">Düzenle</a>
-              <form action="/admin/kullanici-sil/<%= u._id %>" method="POST">
-                <button class="btn btn-sm btn-danger" onclick="return confirm('Silinsin mi?')">Sil</button>
+              <a href="/admin/kullanici-duzenle/<%= u._id %>" class="btn btn-sm btn-outline-secondary">✏️ Düzenle</a>
+              <form action="/admin/kullanici-sil/<%= u._id %>" method="POST" data-confirm="Kullanıcıyı silmek istediğinizden emin misiniz?">
+                <button class="btn btn-sm btn-outline-danger">🗑 Sil</button>
               </form>
             <% } else { %>
               <span class="text-muted">Admin</span>
@@ -60,8 +60,8 @@
           <td><%= new Date(r.tarih).toLocaleString("tr-TR") %></td>
           <td><%= r.durum %></td>
           <td>
-            <form action="/admin/randevu-sil/<%= r._id %>" method="POST">
-              <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Randevu silinsin mi?')">Sil</button>
+            <form action="/admin/randevu-sil/<%= r._id %>" method="POST" data-confirm="Randevuyu silmek istediğinizden emin misiniz?">
+              <button class="btn btn-sm btn-outline-danger">🗑 Sil</button>
             </form>
           </td>
         </tr>

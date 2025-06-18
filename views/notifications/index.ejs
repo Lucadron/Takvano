@@ -5,10 +5,18 @@
 <% if (bildirimler.length===0) { %>
   <p class="text-muted text-center">Henüz bildiriminiz yok.</p>
   <% } else { %>
-    <form action="/bildirimler/tumunu-sil" method="POST"
-      onsubmit="return confirm('Tüm bildirimleri silmek istediğinizden emin misiniz?')" class="text-end mb-3">
-      <button class="btn btn-outline-danger btn-sm" title="Tüm bildirimleri sil">🧹 Tümünü Sil</button>
-    </form>
+    <div class="d-flex justify-content-end gap-2 mb-3">
+      <form action="/bildirimler/tumunu-okundu" method="POST"
+        data-confirm="Tüm bildirimleri okundu olarak işaretlemek istediğinizden emin misiniz?">
+        <button class="btn btn-outline-success btn-sm" title="Tümünü okundu olarak işaretle">✅ Tümünü Okundu
+          Yap</button>
+      </form>
+
+      <form action="/bildirimler/tumunu-sil" method="POST"
+        data-confirm="Tüm bildirimleri silmek istediğinizden emin misiniz?">
+        <button class="btn btn-outline-danger btn-sm" title="Tüm bildirimleri sil">🧹 Tümünü Sil</button>
+      </form>
+    </div>
 
     <ul class="list-group">
       <% bildirimler.forEach(b=> { %>
@@ -53,10 +61,11 @@
             </form>
 
             <form action="/bildirimler/sil/<%= b._id %>" method="POST"
-              onsubmit="return confirm('Bu bildirimi silmek istediğinizden emin misiniz?')">
+              data-confirm="Bu bildirimi silmek istediğinizden emin misiniz?">
               <button class="btn btn-sm btn-outline-danger" title="Sil">🗑</button>
             </form>
-            <a href="/<%= user.rol === 'Ziyaretci' ? 'randevularim' : 'randevular' %>" class="btn btn-sm btn-outline-primary" title="Randevulara Git">📅</a>
+            <a href="/<%= user.rol === 'Ziyaretci' ? 'randevularim' : 'randevular' %>"
+              class="btn btn-sm btn-outline-primary" title="Randevulara Git">📅</a>
 
           </div>
         </li>

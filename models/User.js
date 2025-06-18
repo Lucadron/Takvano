@@ -15,7 +15,11 @@ const userSchema = new mongoose.Schema({
   motto: { type: String, default: "" },
   favoriler: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   aktif: { type: Boolean, default: true },
-  lastLogin: { type: Date, default: null }
+  lastLogin: { type: Date, default: null },
+  calismaSaatleri: {
+    baslangic: { type: String, default: "08:00" },
+    bitis: { type: String, default: "17:00" }
+  }
 });
 
 // Şifreyi kaydetmeden önce hashle
@@ -29,6 +33,7 @@ userSchema.pre("save", async function (next) {
     return next(err);
   }
 });
+
 
 
 module.exports = mongoose.model("User", userSchema);

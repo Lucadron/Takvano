@@ -2,10 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
 const path = require("path");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
 
 // .env dosyasını yükle
 dotenv.config();
@@ -14,18 +14,20 @@ dotenv.config();
 const app = express();
 
 // Middleware'ler
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true })); // 🔹 express'in kendi body parser'ını kullan
+app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(expressLayouts);
-//Eksik değişkenlere global atama
+
+// Multer (profil foto yüklemeleri için)
+const upload = multer({ dest: "public/uploads/" });
+app.locals.upload = upload; // İstersen controller'da centrally eriş
+
+// Eksik değişkenlere global atama
 app.use((req, res, next) => {
   res.locals.title = "Takvano";
-/*   res.locals.user = req.user || null;
-  res.locals.mesaj = req.app.locals.mesaj || null;
-  req.app.locals.mesaj = null;
- */  next();
+  next();
 });
 
 // DEV LOG MIDDLEWARE - Eksik render verilerini geliştiriciye bildir
@@ -35,9 +37,8 @@ if (process.env.NODE_ENV === "development") {
     res.render = function (view, options = {}, callback) {
       const eksikler = [];
 
-      // Hangi değişkenleri zorunlu görmek istiyorsan buraya ekle
       if (!options.title) eksikler.push("title");
-      if (!options.user) eksikler.push("user");
+      if (req.user && !options.user) eksikler.push("user");
       if (view.includes("dashboard") && !options.bildirimler) eksikler.push("bildirimler");
       if (view.includes("my") && !options.aktifRandevular) eksikler.push("aktifRandevular");
 
@@ -84,9 +85,9 @@ const profileRoutes = require("./routes/profile");
 const appointmentRoutes = require("./routes/appointment");
 const userRoutes = require("./routes/user");
 const adminRoutes = require("./routes/admin");
-const notificationRoutes = require("./routes/notification"); // ✅
+const notificationRoutes = require("./routes/notification");
 
-app.use("/bildirimler", notificationRoutes); // 📬 net adres
+app.use("/bildirimler", notificationRoutes);
 app.use("/", authRoutes);
 app.use("/", profileRoutes);
 app.use("/", appointmentRoutes);

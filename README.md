@@ -8,11 +8,13 @@ Takvano, ziyaretçilerin organizatörlerden randevu talep edebildiği, organizat
 
 - 👤 Rol Bazlı Giriş Sistemi (Ziyaretçi / Organizator / Admin)
 - 📅 Akıllı Randevu Takvimi ve Çakışma Engelleme
-- 🔔 Okunabilir / filtrelenebilir dinamik bildirim paneli
+- 🔔 Okunabilir / filtrelenebilir / toplu okundu yapılabilir dinamik bildirim paneli
 - ✉️ E-posta ile bilgilendirme (NodeMailer)
-- 👁 Profil görüntüleme & güncelleme (fotoğraflı)
-- ✅ Randevu onay/red/iptal işlemleri
+- 👁 Profil görüntüleme & güncelleme (fotoğraflı, 4 MB sınır, önizleme desteği)
+- ✅ Randevu onay / red / iptal işlemleri
 - 📦 Dosya yükleme (profil fotoğrafı) – `uploads/` klasörü
+- 📂 Upload kontrol aracı (admin panelde dosya listeleme + tekli/çoklu silme)
+- 🗂 Dosya boyutu sınırı ve sıkıştırma (Sharp ile max 300x300 jpeg, kalite: 80)
 - 📱 Mobil uyumlu arayüz (Bootstrap 5.3)
 
 ---
@@ -38,7 +40,6 @@ npm run dev
 
 ## 🧪 .env Dosya Yapısı
 
-
 ```env
 PORT=8000
 MONGO_URI=mongodb://localhost:27017/takvano
@@ -47,7 +48,6 @@ JWT_SECRET=çokgizlisifre
 EMAIL_USER=youremail@gmail.com
 EMAIL_PASS=uygulama_sifresi
 ```
-
 > 💡 Gmail kullanıyorsan: İki adımlı doğrulama aktifse [App Passwords](https://myaccount.google.com/apppasswords) üzerinden `EMAIL_PASS` üretmelisin.
 
 ---
@@ -60,10 +60,14 @@ Takvano/
 ├── routes/
 ├── controllers/
 ├── views/
-│   └── profile/
+│   ├── profile/
+│   ├── admin/
+│   └── notifications/
 ├── utils/
-├── uploads/              # Kullanıcı fotoğrafları (ignored)
 ├── public/
+│   ├── uploads/         # Kullanıcı fotoğrafları (ignored)
+│   ├── js/
+│   └── scripts/
 ├── .gitignore
 ├── .env
 ├── server.js
@@ -73,3 +77,5 @@ Takvano/
 ---
 
 ## ✨ Teşekkürler
+
+> Bu proje bir eğitim ve geliştirme projesidir.
